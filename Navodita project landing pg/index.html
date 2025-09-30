@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive Landing Page</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <style>
+    body {
+      background: linear-gradient(to right, #0a1931, #3a4750);
+      color: white;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      overflow-x: hidden;
+    }
+    .navbar {
+      background-color: #0a1931;
+    }
+    .navbar-brand {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #f8f9fa !important;
+    }
+    .nav-link {
+      color: #f8f9fa !important;
+      transition: color 0.3s;
+    }
+    .nav-link:hover {
+      color: #00adb5 !important;
+    }
+    .hero {
+      min-height: 90vh;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 50px;
+    }
+    .hero-text h1 {
+      font-size: 3rem;
+      font-weight: bold;
+    }
+    .hero-text p {
+      font-size: 1.2rem;
+      margin-top: 20px;
+    }
+    .btn-custom {
+      background: #00adb5;
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      margin-top: 20px;
+      border-radius: 30px;
+      transition: all 0.3s;
+    }
+    .btn-custom:hover {
+      background: #028a91;
+      transform: scale(1.05);
+    }
+    .product-img {
+      max-width: 400px;
+      width: 100%;
+      height: auto;
+      border-radius: 15px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    }
+    .features {
+      padding: 60px 20px;
+      background: #1c1c1c;
+      text-align: center;
+    }
+    .feature-box {
+      background: #3a4750;
+      border-radius: 15px;
+      padding: 30px;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .feature-box:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+    }
+    .products {
+      padding: 60px 20px;
+    }
+    .product-card {
+      background: #3a4750;
+      border-radius: 15px;
+      padding: 20px;
+      text-align: center;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .product-card img {
+      width: 100%;
+      max-height: 250px;
+      border-radius: 12px;
+      margin-bottom: 15px;
+    }
+    .product-card:hover {
+      transform: scale(1.05);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+    }
+    footer {
+      background: #0a1931;
+      text-align: center;
+      padding: 15px;
+      font-size: 0.9rem;
+      margin-top: 30px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">MyProduct</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon" style="filter: invert(1);"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="#features">Features</a></li>
+          <li class="nav-item"><a class="nav-link" href="#products">Products</a></li>
+          <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero container">
+    <div class="hero-text" data-aos="fade-right">
+      <h1>Revolutionize Your Experience</h1>
+      <p>Our product is designed to bring efficiency, style, and performance like never before.</p>
+      <button class="btn-custom">Get Started</button>
+    </div>
+    <div data-aos="fade-left">
+      <img src="https://www.udacity.com/_next/image?url=https%3A%2F%2Fvideo.udacity-data.com%2Ftopher%2F2024%2FOctober%2F670986e9_cs212%2Fcs212.jpg&w=3840&q=75" alt="Product" class="product-img">
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section class="features" id="features">
+    <div class="container">
+      <h2 class="mb-5" data-aos="zoom-in">Why Choose Us?</h2>
+      <div class="row g-4">
+        <div class="col-md-4" data-aos="flip-left">
+          <div class="feature-box">
+            <h4>High Performance</h4>
+            <p>Engineered for speed and efficiency with top-notch quality.</p>
+          </div>
+        </div>
+        <div class="col-md-4" data-aos="flip-up">
+          <div class="feature-box">
+            <h4>Modern Design</h4>
+            <p>Crafted with sleek and modern aesthetics to stand out.</p>
+          </div>
+        </div>
+        <div class="col-md-4" data-aos="flip-right">
+          <div class="feature-box">
+            <h4>Reliable Support</h4>
+            <p>24/7 customer service to ensure smooth experience.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Products -->
+  <section class="products container" id="products">
+    <h2 class="text-center mb-5" data-aos="fade-up">Our Products</h2>
+    <div class="row g-4">
+      <div class="col-md-4" data-aos="fade-up">
+        <div class="product-card">
+          <img src="https://d3f1iyfxxz8i1e.cloudfront.net/courses/course_image/00e00f905101.jpg" alt="Product 1">
+          <h5>Digital marketing </h5>
+          <p>High quality and durable for daily use.</p>
+        </div>
+      </div>
+      <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+        <div class="product-card">
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4caBlhz6c8hcz5PLCyoKSmh-2s818hkrtjvBNmU1Gyv6RNUbyhOeevARxc1AwPX0fZyE&usqp=CAU" alt="Product 2">
+          <h5>Networking</h5>
+          <p>Designed for modern lifestyle with premium finish.</p>
+        </div>
+      </div>
+      <div class="col-md-4" data-aos="fade-up" data-aos-delay="400">
+        <div class="product-card">
+          <img src="https://bs-uploads.toptal.io/blackfish-uploads/components/blog_post_page/9513412/cover_image/regular_1708x683/unnamed-60c86c74dd19f706831cc3a1724a1c8f.png" alt="Product 3">
+          <h5>Content writing</h5>
+          <p>Reliable performance that lasts for years.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    &copy; 2025 MyProduct. All rights reserved.
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    AOS.init({
+      duration: 1200,
+      once: true
+    });
+  </script>
+</body>
+</html>
