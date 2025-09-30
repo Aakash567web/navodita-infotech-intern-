@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sky Blue E-commerce Catalog</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Roboto', sans-serif;
+      background-color: #000;
+      color: #fff;
+    }
+    h1 {
+      text-align: center;
+      color: #00cfff;
+      margin: 20px 0;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .filters {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    .filters button {
+      background-color: #00cfff;
+      border: none;
+      padding: 10px 20px;
+      color: #000;
+      font-weight: bold;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .filters button:hover {
+      background-color: #009bbf;
+      color: #fff;
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 20px;
+    }
+    .product-card {
+      background-color: #111;
+      border-radius: 10px;
+      overflow: hidden;
+      text-align: center;
+      padding: 15px;
+      transition: transform 0.3s, box-shadow 0.3s;
+      cursor: pointer;
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    .product-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+      transition: 0.6s ease-in-out;
+    }
+    .product-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 5px;
+      margin-bottom: 10px;
+    }
+    .product-card h3 {
+      margin: 10px 0 5px;
+      font-size: 1.1rem;
+      color: #00cfff;
+    }
+    .product-card p {
+      margin: 5px 0;
+      color: #aaa;
+    }
+    .product-card .price {
+      font-weight: bold;
+      color: #00cfff;
+    }
+
+    .product-card button {
+      margin: 5px;
+      padding: 8px 12px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .add-cart {
+      background-color: #00cfff;
+      color: #000;
+    }
+    .add-cart:hover {
+      background-color: #009bbf;
+      color: #fff;
+    }
+    .buy-now {
+      background-color: #fff;
+      color: #000;
+    }
+    .buy-now:hover {
+      background-color: #00cfff;
+      color: #000;
+    }
+
+    /* Modal */
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.9);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 10;
+    }
+    .modal-content {
+      background-color: #111;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 600px;
+      width: 90%;
+      text-align: center;
+      position: relative;
+      animation: fadeIn 0.5s;
+    }
+    .modal-content img {
+      width: 100%;
+      height: 300px;
+      object-fit: cover;
+      border-radius: 10px;
+      margin-bottom: 15px;
+    }
+    .modal-content h3 {
+      color: #00cfff;
+      margin-bottom: 10px;
+    }
+    .modal-content .close {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 25px;
+      cursor: pointer;
+      color: #00cfff;
+    }
+
+    @keyframes fadeIn {
+      from {opacity: 0;}
+      to {opacity: 1;}
+    }
+
+    /* Cart */
+    #cart {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      background-color: #111;
+      padding: 15px;
+      border-radius: 10px;
+      width: 250px;
+      max-height: 80vh;
+      overflow-y: auto;
+      box-shadow: 0 0 10px #00cfff;
+    }
+    #cart h3 {
+      margin-top: 0;
+      color: #00cfff;
+      text-align: center;
+    }
+    #cart ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    #cart li {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      font-size: 0.9rem;
+    }
+    #cart button {
+      margin-top: 10px;
+      width: 100%;
+      padding: 8px;
+      border: none;
+      border-radius: 5px;
+      background-color: #00cfff;
+      color: #000;
+      cursor: pointer;
+    }
+    #cart button:hover {
+      background-color: #009bbf;
+    }
+
+    @media (max-width: 600px){
+      .product-card img {height: 180px;}
+      .modal-content img {height: 200px;}
+      #cart {width: 90%; top: auto; bottom: 10px;}
+    }
+  </style>
+</head>
+<body>
+
+<h1>Sky Blue E-Commerce Catalog</h1>
+
+<div class="container">
+  <div class="filters">
+    <button data-filter="all">All</button>
+    <button data-filter="shirt">Shirts</button>
+    <button data-filter="pants">Pants</button>
+    <button data-filter="tshirt">T-Shirts</button>
+    <button data-filter="shoes">Shoes</button>
+    <button data-filter="slippers">Slippers</button>
+    <button data-filter="jacket">Jackets</button>
+    <button data-filter="women">Women's Clothing</button>
+  </div>
+
+  <div class="product-grid" id="productGrid"></div>
+</div>
+
+<!-- Modal -->
+<div class="modal" id="productModal">
+  <div class="modal-content" id="modalContent">
+    <span class="close" id="closeModal">&times;</span>
+    <img src="" alt="Product Image" id="modalImg">
+    <h3 id="modalTitle"></h3>
+    <p id="modalDesc"></p>
+    <p class="price" id="modalPrice"></p>
+    <button class="add-cart" id="modalAddCart">Add to Cart</button>
+    <button class="buy-now">Buy Now</button>
+  </div>
+</div>
+
+<!-- Cart -->
+<div id="cart">
+  <h3>Shopping Cart</h3>
+  <ul id="cartItems"></ul>
+  <button id="checkoutBtn">Checkout</button>
+</div>
+
+<script>
+const products = [
+  {id:1, name:'Blue Shirt', category:'shirt', price:25, img:'https://dukaan.b-cdn.net/700x700/webp/upload_file_service/40bec54d-5220-49f0-833d-9a6edb647211/product-p-8c703713-6891-4988-ad80-cfd4c1b15162.png', desc:'Comfortable cotton blue shirt.'},
+  {id:2, name:'Black Pants', category:'pants', price:40, img:'https://rukminim2.flixcart.com/image/480/640/xif0q/trouser/e/s/z/30-tu1-vebnor-original-imagmy6hhhz62qzn.jpeg?q=90', desc:'Elegant black pants for office.'},
+  {id:3, name:'White T-Shirt', category:'tshirt', price:15, img:'https://skream.in/cdn/shop/files/skreamoversizedtshirty2kstreetwearwomensteeOversizedTshirtSKREAMRISKYBRISKYCLASSYSTREETWEARINDIA0.webp?v=1741100688', desc:'Classic white T-shirt for casual wear.'},
+  {id:4, name:'Running Shoes', category:'shoes', price:60, img:'https://m.media-amazon.com/images/I/81uDmuZL-3L._UY300_.jpg', desc:'Comfortable running shoes.'},
+  {id:5, name:'Leather Jacket', category:'jacket', price:120, img:'https://m.media-amazon.com/images/I/61ciA9Rh3uL._UY350_.jpg', desc:'Stylish black leather jacket.'},
+  {id:6, name:'Red Slippers', category:'slippers', price:20, img:'https://5.imimg.com/data5/SELLER/Default/2021/1/AA/WJ/QL/28496282/19-500x500.JPG', desc:'Soft and comfortable slippers.'},
+  {id:7, name:"Women's Dress", category:'women', price:50, img:'https://img.tatacliq.com/images/i13/437Wx649H/MP000000018533353_437Wx649H_202309290658301.jpeg', desc:'Beautiful summer dress.'},
+  {id:8, name:'Green Shirt', category:'shirt', price:30, img:'https://rukminim2.flixcart.com/image/480/580/xif0q/shirt/0/l/i/m-sht04-ethvil-original-imagruyhcdtfpquf.jpeg?q=90', desc:'Stylish green shirt.'},
+  {id:9, name:'Grey Pants', category:'pants', price:35, img:'https://assets.ajio.com/medias/sys_master/root/20221230/wXVL/63aec149aeb269659c17e981/-473Wx593H-443007815-ltgrey-MODEL.jpg', desc:'Elegant grey pants.'},
+  {id:10, name:'Yellow T-Shirt', category:'tshirt', price:18, img:'https://opiumvalley.in/cdn/shop/files/Mustard_Yellow_Classic_Oversized_T-Shirt_Front_450x450.png?v=1735204143', desc:'Bright yellow t-shirt.'},
+  {id:11, name:'Formal Shoes', category:'shoes', price:70, img:'https://5.imimg.com/data5/SELLER/Default/2023/7/323711061/JE/ST/KL/77384570/dsc-2634-2--500x500.JPG', desc:'Elegant formal shoes.'},
+  {id:12, name:'Denim Jacket', category:'jacket', price:80, img:'https://5.imimg.com/data5/SELLER/Default/2023/10/355027601/FD/MB/BD/103000857/men-solid-denim-jacket-500x500.jpg', desc:'Casual denim jacket.'},
+  {id:13, name:'Black T-Shirt', category:'tshirt', price:20, img:'https://www.blackskies.shop/media/image/ce/24/59/Blackskies-Basic-Oversized-T-Shirt-Black-Men-Model-3MVqEyFJIzzsbo_600x600.jpg', desc:'Classic black t-shirt.'},
+  {id:14, name:'Brown Shoes', category:'shoes', price:55, img:'https://cpimg.tistatic.com/04946389/b/4/Mens-Formal-Brown-Shoes.jpg', desc:'Stylish brown shoes.'},
+  {id:15, name:'Pink Slippers', category:'slippers', price:18, img:'https://images.meesho.com/images/products/409507001/tdqj6_512.webp?width=512', desc:'Comfortable pink slippers.'},
+  {id:16, name:"Women's Jacket", category:'women', price:90, img:'https://assets.myntassets.com/h_1440,q_75,w_1080/v1/assets/images/31313109/2024/11/4/c0351b8c-9f55-4830-a78d-3d17053402be1730714228151-DL-Woman-Stand-Collar-Padded-Jacket-9181730714227875-1.jpg', desc:'Elegant jacket for women.'},
+  {id:17, name:'Blue T-Shirt', category:'tshirt', price:22, img:'https://assets.ajio.com/medias/sys_master/root/20231010/Z2q1/65252630ddf77915192fae0c/-473Wx593H-466691467-blue-MODEL.jpg', desc:'Comfortable blue t-shirt.'},
+  {id:18, name:'Orange Shirt', category:'shirt', price:28, img:'https://assets.ajio.com/medias/sys_master/root/ha9/h29/13863776288798/-473Wx593H-460430422-orange-MODEL.jpg', desc:'Stylish orange shirt.'},
+  {id:19, name:'White Pants', category:'pants', price:38, img:'https://assets.ajio.com/medias/sys_master/root/20250606/uIqX/6843167955340d4b4f8c72f2/-473Wx593H-466084717-white-MODEL.jpg', desc:'Classic white pants.'},
+  {id:20, name:'Green Slippers', category:'slippers', price:15, img:'https://rukminim2.flixcart.com/image/480/580/xif0q/sandal/2/r/c/6-1a-1038-6-baespice-green-original-imagwjbfwcf4xguq.jpeg?q=90', desc:'Comfortable green slippers.'},
+];
+
+let cart = [];
+
+const productGrid = document.getElementById('productGrid');
+const cartItems = document.getElementById('cartItems');
+const checkoutBtn = document.getElementById('checkoutBtn');
+
+// Display products
+function displayProducts(items){
+  productGrid.innerHTML = '';
+  items.forEach(item => {
+    const card = document.createElement('div');
+    card.classList.add('product-card');
+    card.setAttribute('data-category', item.category);
+    card.innerHTML = `
+      <img src="${item.img}" alt="${item.name}">
+      <h3>${item.name}</h3>
+      <p>${item.desc}</p>
+      <p class="price">$${item.price}</p>
+      <button class="add-cart">Add to Cart</button>
+      <button class="buy-now">Buy Now</button>
+    `;
+    productGrid.appendChild(card);
+
+    // Animate on scroll
+    setTimeout(()=>card.classList.add('visible'), 100);
+
+    // Open modal
+    card.querySelector('img').addEventListener('click', (e)=>{
+      e.stopPropagation();
+      openModal(item);
+    });
+
+    // Add to Cart
+    card.querySelector('.add-cart').addEventListener('click', (e)=>{
+      e.stopPropagation();
+      addToCart(item);
+    });
+  });
+}
+
+displayProducts(products);
+
+// Filter
+document.querySelectorAll('.filters button').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    const filter = btn.getAttribute('data-filter');
+    if(filter==='all'){
+      displayProducts(products);
+    } else{
+      displayProducts(products.filter(p=>p.category===filter));
+    }
+  });
+});
+
+// Modal
+const modal = document.getElementById('productModal');
+const modalImg = document.getElementById('modalImg');
+const modalTitle = document.getElementById('modalTitle');
+const modalDesc = document.getElementById('modalDesc');
+const modalPrice = document.getElementById('modalPrice');
+const closeModalBtn = document.getElementById('closeModal');
+const modalAddCart = document.getElementById('modalAddCart');
+
+function openModal(product){
+  modal.style.display = 'flex';
+  modalImg.src = product.img;
+  modalTitle.textContent = product.name;
+  modalDesc.textContent = product.desc;
+  modalPrice.textContent = `$${product.price}`;
+  modalAddCart.onclick = ()=>addToCart(product);
+}
+closeModalBtn.onclick = ()=> modal.style.display = 'none';
+window.onclick = e=>{if(e.target===modal) modal.style.display='none';}
+
+// Add to Cart
+function addToCart(product){
+  cart.push(product);
+  renderCart();
+}
+
+function renderCart(){
+  cartItems.innerHTML = '';
+  cart.forEach((item,index)=>{
+    const li = document.createElement('li');
+    li.textContent = `${item.name} - $${item.price}`;
+    const removeBtn = document.createElement('button');
+    removeBtn.textContent = 'Remove';
+    removeBtn.style.marginLeft = '5px';
+    removeBtn.onclick = ()=>{cart.splice(index,1); renderCart();}
+    li.appendChild(removeBtn);
+    cartItems.appendChild(li);
+  });
+}
+
+// Checkout
+checkoutBtn.onclick = ()=>{
+  if(cart.length===0){
+    alert("Cart is empty!");
+  } else{
+    let total = cart.reduce((acc,item)=>acc+item.price,0);
+    alert(`Checkout Successful! Total Amount: $${total}`);
+    cart=[];
+    renderCart();
+  }
+}
+</script>
+</body>
+</html>
